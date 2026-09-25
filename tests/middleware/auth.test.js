@@ -107,5 +107,21 @@ describe("auth middleware", () => {
     it("should return empty for unknown role", () => {
       expect(getPermissionsForRole("hacker")).toEqual([]);
     });
+
+    it("should grant orders:read:all to admin", () => {
+      expect(getPermissionsForRole("admin")).toContain("orders:read:all");
+    });
+
+    it("should grant orders:read:all to manager", () => {
+      expect(getPermissionsForRole("manager")).toContain("orders:read:all");
+    });
+
+    it("should not grant orders:read:all to customer", () => {
+      expect(getPermissionsForRole("customer")).not.toContain("orders:read:all");
+    });
+
+    it("should not grant orders:read:all to guest", () => {
+      expect(getPermissionsForRole("guest")).not.toContain("orders:read:all");
+    });
   });
 });
