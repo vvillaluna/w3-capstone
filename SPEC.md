@@ -134,3 +134,20 @@ Confirm the manager/payments callout above — proceed with the literal
 you rather I introduce `payments:read:all` for admin+manager and keep the
 ownership check for `customer` only? Either is a small change to step 4;
 I want the call before touching tests.
+
+## Resolution
+
+Confirmed: proceeding with the literal "same check as POST" — manager loses
+blanket payment-read access (only admin bypasses ownership). No new
+`payments:read:all` permission introduced.
+
+This means `payment.js` intentionally keeps an inline `req.user.role`
+check rather than a `ROLE_PERMISSIONS` entry, unlike the `orders:read:all`
+approach used for orders.js/orderHistory.js. The difference is deliberate,
+not an inconsistency: the orders fix is a route-level access class (a
+role either can or can't see the aggregate view, decidable from the role
+alone) — a permission fits it naturally. The payments fix is a per-instance
+ownership check (`order.user_id === req.user.id`) that depends on request
+data, not just the role, so it can't be expressed as a static
+`ROLE_PERMISSIONS` entry the same way. It mirrors `POST /api/payments`,
+which already used this exact inline check before this change.
