@@ -39,7 +39,7 @@ router.get("/", authenticate("orders:read"), async (req, res, next) => {
  * GET /api/orders/active
  * List orders from currently active users. Uses userService.
  */
-router.get("/active", authenticate("orders:read"), async (req, res, next) => {
+router.get("/active", authenticate("orders:read:all"), async (req, res, next) => {
   try {
     const activeUsers = await getActiveUsers();
     const activeUserIds = activeUsers.map((u) => u.id);

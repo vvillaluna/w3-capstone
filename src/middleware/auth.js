@@ -13,6 +13,7 @@ const ROLE_PERMISSIONS = {
     "users:write",
     "users:delete",
     "orders:read",
+    "orders:read:all",
     "orders:write",
     "orders:delete",
     "products:read",
@@ -27,6 +28,7 @@ const ROLE_PERMISSIONS = {
   manager: [
     "users:read",
     "orders:read",
+    "orders:read:all",
     "orders:write",
     "products:read",
     "products:write",
