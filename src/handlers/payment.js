@@ -89,6 +89,15 @@ router.post("/", authenticate("payments:write"), async (req, res, next) => {
  */
 router.get("/:orderId", authenticate("payments:read"), async (req, res, next) => {
   try {
+    const order = await Order.findById(req.params.orderId);
+    if (!order) {
+      return res.status(404).json({ error: "Order not found" });
+    }
+
+    if (order.user_id !== req.user.id && req.user.role !== "admin") {
+      return res.status(403).json({ error: "Not your order" });
+    }
+
     const payments = await Payment.findByOrderId(req.params.orderId);
     res.json({ payments });
   } catch (err) {

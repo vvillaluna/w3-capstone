@@ -13,7 +13,7 @@ const logger = require("../utils/logger");
  * Known issue: this endpoint is slow under load (~1200ms P95 vs ~400ms target).
  * Jira ticket OPS-347 is open to investigate.
  */
-router.get("/", authenticate("orders:read"), async (req, res, next) => {
+router.get("/", authenticate("orders:read:all"), async (req, res, next) => {
   try {
     const limit = parseInt(req.query.limit) || 50;
 
